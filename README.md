@@ -1,7 +1,18 @@
 Usage
 ----
 
-`node app.js screen_name`
+1. `config.json`をつくる
+2. `node app.js screen_name`
+
+config.json
+----
+
+    {
+        "TWITTER_CONSUMER_KEY":         "*************************",
+        "TWITTER_CONSUMER_SECRET":      "**************************************************",
+        "TWITTER_ACCESS_TOKEN":         "**************************************************",
+        "TWITTER_ACCESS_TOKEN_SECRET":  "*********************************************"
+    }
 
 Note
 ----

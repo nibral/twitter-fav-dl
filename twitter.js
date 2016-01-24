@@ -49,7 +49,7 @@ module.exports.getFavoriteImageURLArray = function(screenName, numOfMaxTweets, c
                 if(medias) {
                     for(var mk = 0; mk < medias.length; mk++) {
                         if(medias[mk].type === 'photo') {
-                            imageURLs.push(medias[mk].media_url_https);
+                            imageURLs.push(medias[mk].media_url_https + ':orig');
                         }
                     }
                 }

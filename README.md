@@ -1,8 +1,12 @@
 Usage
 ----
 
-1. `config.json`をつくる
-2. `node app.js screen_name`
+1. `git clone https://github.com/nibral/twitter-fav-dl.git`
+1. `npm install`
+1. `config.json`をつくる(フォーマットは下を参照)
+1. `node app.js screen_name > list.txt`
+
+あとは`list.txt`を適当なディレクトリに移動して`xargs -P 10 -n 1 wget -nv < list.txt`
 
 config.json
 ----

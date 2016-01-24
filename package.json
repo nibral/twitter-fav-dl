@@ -1,0 +1,12 @@
+{
+  "name": "twitter-fav-dl",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "app.js",
+  "author": "nibral",
+  "license": "MIT",
+  "dependencies": {
+    "twitter": "^1.2.5"
+  }
+}

@@ -1,0 +1,6 @@
+# config file (has CK/CS) 
+config.json
+
+# npm
+node_modules
+

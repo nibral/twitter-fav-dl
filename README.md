@@ -1,12 +1,9 @@
-Usage
+Install
 ----
 
 1. `git clone https://github.com/nibral/twitter-fav-dl.git`
 1. `npm install`
 1. `config.json`をつくる(フォーマットは下を参照)
-1. `node app.js screen_name > list.txt`
-
-あとは`list.txt`を適当なディレクトリに移動して`xargs -P 10 -n 1 wget -nv < list.txt`
 
 config.json
 ----
@@ -17,6 +14,16 @@ config.json
         "TWITTER_ACCESS_TOKEN":         "**************************************************",
         "TWITTER_ACCESS_TOKEN_SECRET":  "*********************************************"
     }
+
+Usage
+----
+
+`node app.js screen_name [noid]`
+
+1. `node app.js screen_name noid > list.txt`(screen_nameは@なしで入力)
+1. `list.txt`を適当なディレクトリに移動
+1. 移動先で`xargs -P 10 -n 1 wget -nv < list.txt`
+1. 拡張子に`orig`がついたままなので`rename .jpg:orig jpg ./*;rename .png:orig png ./*`
 
 Note
 ----
@@ -66,6 +73,7 @@ Note
 
 License
 ----
+
 (c) 2016 nibral
     
 Released under MIT License.

@@ -23,7 +23,7 @@ Usage
 1. `node app.js screen_name noid > list.txt`(screen_nameは@なしで入力)
 1. `list.txt`を適当なディレクトリに移動
 1. 移動先で`xargs -P 10 -n 1 wget -nv < list.txt`
-1. 拡張子に`orig`がついたままなので`rename .jpg:orig jpg ./*;rename .png:orig png ./*`
+1. 拡張子に`orig`がついたままなので`rename jpg:orig jpg ./*;rename png:orig png ./*`
 
 Note
 ----

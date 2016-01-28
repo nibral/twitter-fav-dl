@@ -6,7 +6,7 @@ const twitter = require('./twitter');
 // 引数チェック
 if (process.argv.length < 3) {
     console.log('usage:node app.js screen_name [noid]');
-    return;
+    process.exit(1);
 }
 const screenName = process.argv[2];
 const isPrintID = (process.argv[3] === 'noid') ? false : true;

@@ -8,22 +8,22 @@ Install
 config.json
 ----
 
+Webアプリ化に伴ってOAuthを実装したので、アクセストークンは不要になりました
+
     {
         "TWITTER_CONSUMER_KEY":         "*************************",
-        "TWITTER_CONSUMER_SECRET":      "**************************************************",
-        "TWITTER_ACCESS_TOKEN":         "**************************************************",
-        "TWITTER_ACCESS_TOKEN_SECRET":  "*********************************************"
+        "TWITTER_CONSUMER_SECRET":      "**************************************************"
     }
 
 Usage
 ----
 
-`node app.js screen_name [noid]`
+**現在のところ、OAuthで認証してユーザ情報が見られるだけです**
 
-1. `node app.js screen_name noid > list.txt`(screen_nameは@なしで入力)
-1. `list.txt`を適当なディレクトリに移動
-1. 移動先で`xargs -P 10 -n 1 wget -nv < list.txt`
-1. 拡張子に`orig`がついたままなので`rename jpg:orig jpg ./*;rename png:orig png ./*`
+1. `node app.js`
+1. `http://yourdomain.com:3000/oauth`にアクセス
+
+待ち受けるポートを変更する場合、環境変数PORTに待ち受けたいポートを設定してから起動する
 
 Note
 ----

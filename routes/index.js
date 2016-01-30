@@ -3,7 +3,6 @@
 const express = require('express');
 const router = express.Router();
 const co = require('co');
-const twitter = require('../lib/twitter');
 
 // トップページ
 router.get('/', (request, response) => {
@@ -13,10 +12,16 @@ router.get('/', (request, response) => {
     });
 });
 
-// oauthリクエスト
+// Twitter OAuth
+const twitter = require('../lib/twitter');
+let twitterClient = null;
+let oauthRequestToken = null;
+
+// OAuthリクエスト
 router.get('/oauth', (request, response) => {
-    twitter.OAuth().then((oauthResponse) => {
-        response.redirect(oauthResponse.redirectURL);
+    twitter.OAuth().then((oauthToken) => {
+        oauthRequestToken = oauthToken;
+        response.redirect(oauthToken.redirectURL);
     }).catch((error) => {
         response.render('layout', {
             title: 'Error',
@@ -25,21 +30,23 @@ router.get('/oauth', (request, response) => {
     });
 });
 
-// Twitterから戻ってきた
+// Twitterから呼ばれるOAuthコールバック
 router.get('/oauth/callback', (request, response) => {
-    twitter.OAuthCallback(request.query).then((userOAuthToken) => {
-        response.redirect('/' + userOAuthToken.screen_name);
+    twitter.OAuthCallback(oauthRequestToken, request.query).then((userOAuthInfo) => {
+        twitterClient = userOAuthInfo.client;
+        response.redirect('/' + userOAuthInfo.userAccessToken.screen_name);
     }).catch((error) => {
         response.render('layout', {
             title: 'Error',
             content: error
         });
     });
+    oauthRequestToken = null;
 });
 
 // ユーザページ
 router.get('/:screenName', (request, response) => {
-    twitter.getUserInfo(request.params.screenName).then((userInfo) => {
+    twitter.getUserInfo(twitterClient, request.params.screenName).then((userInfo) => {
         response.render('layout', {
             title: userInfo.screen_name,
             content: JSON.stringify(userInfo, null, '    ')

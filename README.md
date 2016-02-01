@@ -30,6 +30,9 @@ Usage
 
 1. `node app.js`
 1. `http://yourdomain.com:port/`にアクセス
+1. OAuth認証後、`/like`に飛ばされて画像のURL一覧が出るので、適当な名前で保存(`list.txt`とか)
+1. 適当なディレクトリを用意し、`xargs -P 10 -n 1 wget -nv < list.txt`
+1. 拡張子に`orig`がついたままなので`rename jpg:orig jpg ./*;rename png:orig png ./*`)
 
 Note
 ----

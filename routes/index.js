@@ -9,7 +9,8 @@ const twitter = require('../lib/twitter');
 router.get('/', (request, response) => {
     // cookieにユーザ情報がない場合、認証画面へ飛ばす
     if (!request.session.user) {
-        response.redirect('/oauth');
+        response.send(process.env.PORT);
+        //response.redirect('/oauth');
         return;
     }
 

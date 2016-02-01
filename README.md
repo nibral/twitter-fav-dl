@@ -3,36 +3,45 @@ Install
 
 1. `git clone https://github.com/nibral/twitter-fav-dl.git`
 1. `npm install`
-1. `config.json`をつくる(フォーマットは下を参照)
+1. 環境変数を設定する(詳細は次節参照)
 
-config.json
+        export SESSION_SECRET="foobar"
+        export TWITTER_CONSUMER_KEY="*************************"
+        export TWITTER_CONSUMER_KEY_SECRET="**************************************************"
+
+Environment Variables
 ----
 
-    {
-        "TWITTER_CONSUMER_KEY":         "*************************",
-        "TWITTER_CONSUMER_SECRET":      "**************************************************",
-        "TWITTER_ACCESS_TOKEN":         "**************************************************",
-        "TWITTER_ACCESS_TOKEN_SECRET":  "*********************************************"
-    }
+動作のために、以下に示す3つの環境変数を設定する必要があります。  
+* SESSION_SECRET
+    + セッションの署名に使う文字列。適当な文字列でOK。
+* TWITTER_CONSUMER_KEY
+* TWITTER_CONSUMER_KEY_SECRET
+    + いわゆるCK/CS。[Twitter Application Management](https://apps.twitter.com/)で取得してくる。
+
+また、必要に応じて以下の環境変数を設定することもできます。
+* PORT
+    + サーバがlistenするポート。デフォルトでは3000。  
+* TWITTER_OAUTH_CALLBACK_DOMAIN
+    + TwitterのサイトでOAuth認証した後に呼び出されるコールバックURL(ポート番号込)。デフォルトでは`127.0.0.1:3000`。
 
 Usage
 ----
 
-`node app.js screen_name [noid]`
-
-1. `node app.js screen_name noid > list.txt`(screen_nameは@なしで入力)
-1. `list.txt`を適当なディレクトリに移動
-1. 移動先で`xargs -P 10 -n 1 wget -nv < list.txt`
-1. 拡張子に`orig`がついたままなので`rename jpg:orig jpg ./*;rename png:orig png ./*`
+1. `node app.js`
+1. `http://yourdomain.com:port/`にアクセス
 
 Note
 ----
 
 * **[公式のドキュメント](https://dev.twitter.com/rest/public)をよく読む(重要)**
+* OAuthは[Implementing Sign in with Twitter](https://dev.twitter.com/web/sign-in/implementing)がすべて
 * `GET /1.1/favorites/list`でlikeの一覧が取れる
     + 1回のリクエストで最大200件(`count`パラメータ、指定がないと5件)
+    + 削除されたツイート等の除外処理は`count`で指定した数に絞った後に行われるので、  
+      必ずしも指定した件数が帰ってくるとは限らない  
     + 201件目以降は、200件目のidを`max_id`パラメータに指定すればOK
-    + likeの件数は`GET /1.1/users/show.json`でユーザ情報を取って`favourites_count`を見る
++ likeの総件数は`GET /1.1/users/show.json`でユーザ情報を取って`favourites_count`を見る
 
 `GET /1.1/favorites/list`のレスポンス構造
 

@@ -1,30 +1,31 @@
 'use strict'
 
-const co = require('co');
-const twitter = require('./twitter');
+const express = require('express');
+const app = express();
 
-// 引数チェック
-if (process.argv.length < 3) {
-    console.log('usage:node app.js screen_name [noid]');
-    process.exit(1);
-}
-const screenName = process.argv[2];
-const isPrintID = (process.argv[3] === 'noid') ? false : true;
+// Express設定
+app.set('view engine', 'jade');
 
-// LikeしたtweetのIDと画像のURLを取得
-co(function*() {
-    return yield twitter.downloadFavTweetsAndParseImageURLs(screenName);
-}).then((imageURLs) => {
-    if(isPrintID) {
-        for(let i = 0; i < imageURLs.length; i++) {
-            console.log(imageURLs[i].id + ' ' + imageURLs[i].url);
-        }
-    } else {
-        for(let i = 0; i < imageURLs.length; i++) {
-            console.log(imageURLs[i].url);
-        }
+// ミドルウェア設定
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+app.use(session({               // セッション設定
+    secret: process.env.SESSION_SECRET,  // シークレット
+    resave: false,              // リクエストごとにセッションを書き直さない
+    saveUninitialized: false,   // 未初期化のセッションは書き込まない
+    cookie: {
+        maxAge: null            // 有効期限設定なし(=ブラウザを閉じたら破棄)
     }
-}).catch((error) => {
-    console.log(error);
-});;
+}));
 
+// ルーティング
+const router = require('./routes');
+const oauth = require('./routes/oauth');
+app.use('/oauth', oauth);
+app.use('/', router);
+
+// サーバ起動
+const listenPort = process.env.PORT || 3000;
+app.listen(listenPort, () => {
+    console.log('start listening on port %d', listenPort);
+});

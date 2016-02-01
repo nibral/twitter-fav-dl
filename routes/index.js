@@ -27,4 +27,31 @@ router.get('/', (request, response) => {
     });
 });
 
+// Likeの画像URL一覧
+router.get('/like', (request, response) => {
+    // cookieにユーザ情報がない場合、認証画面へ飛ばす
+    if (!request.session.user) {
+        response.redirect('/oauth');
+        return;
+    }
+
+    const twitterClient = twitter.getInstance(request.session.user.accessToken, request.session.user.accessTokenSecret);
+    twitter.downloadFavTweetsAndParseImageURLs(twitterClient, request.session.user.screenName).then((imageURLs) => {
+        let urlList = '';
+        for(let i = 0; i < imageURLs.length; i++) {
+            urlList += imageURLs[i].url + '\n';
+        }
+        response.render('layout', {
+            title: request.session.user.screenName,
+            content: urlList
+        })
+    }).catch((error) => {
+        response.render('layout', {
+            title: 'Error',
+            content: JSON.stringify(error)
+        });
+    });
+});
+
+
 module.exports = router;

@@ -17,13 +17,13 @@ Environment Variables
     + セッションの署名に使う文字列。適当な文字列でOK。
 * TWITTER_CONSUMER_KEY
 * TWITTER_CONSUMER_KEY_SECRET
-    + いわゆるCK/CS。(Twitter Application Management)[https://apps.twitter.com/]で取得してくる。
+    + いわゆるCK/CS。[Twitter Application Management](https://apps.twitter.com/)で取得してくる。
 
 また、必要に応じて以下の環境変数を設定することもできます。
 * PORT
     + サーバがlistenするポート。デフォルトでは3000。  
 * TWITTER_OAUTH_CALLBACK_DOMAIN
-    + TwitterのサイトでOAuth認証した後に呼び出されるコールバックURLのドメイン。デフォルトでは`127.0.0.1`。
+    + TwitterのサイトでOAuth認証した後に呼び出されるコールバックURL(ポート番号込)。デフォルトでは`127.0.0.1:3000`。
 
 Usage
 ----
@@ -31,9 +31,7 @@ Usage
 **現在のところ、OAuthで認証してユーザ情報が見られるだけです**
 
 1. `node app.js`
-1. `http://yourdomain.com:3000/oauth`にアクセス
-
-待ち受けるポートを変更する場合、環境変数PORTに待ち受けたいポートを設定してから起動する
+1. `http://yourdomain.com:port/`にアクセス
 
 Note
 ----

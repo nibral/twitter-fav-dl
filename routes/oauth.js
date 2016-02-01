@@ -25,7 +25,7 @@ router.get('/callback', (request, response) => {
     twitter.OAuthCallback(oauthRequestToken, request.query).then((userAccessToken) => {
         // cookieにユーザ情報を保存
         request.session.user = userAccessToken;
-        response.redirect('/');
+        response.redirect('/like');
     }).catch((error) => {
         response.render('layout', {
             title: 'Error',

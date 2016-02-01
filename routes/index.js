@@ -38,13 +38,11 @@ router.get('/like', (request, response) => {
     const twitterClient = twitter.getInstance(request.session.user.accessToken, request.session.user.accessTokenSecret);
     twitter.downloadFavTweetsAndParseImageURLs(twitterClient, request.session.user.screenName).then((imageURLs) => {
         let urlList = '';
-        for(let i = 0; i < imageURLs.length; i++) {
+        for (let i = 0; i < imageURLs.length; i++) {
             urlList += imageURLs[i].url + '\n';
         }
-        response.render('layout', {
-            title: request.session.user.screenName,
-            content: urlList
-        })
+        response.set('Content-Type', 'text/plain');
+        response.send(urlList);
     }).catch((error) => {
         response.render('layout', {
             title: 'Error',

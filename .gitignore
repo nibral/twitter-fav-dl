@@ -1,5 +1,5 @@
 # config file (has CK/CS) 
-config.json
+config.conf
 
 # npm
 node_modules

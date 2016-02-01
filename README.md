@@ -3,20 +3,27 @@ Install
 
 1. `git clone https://github.com/nibral/twitter-fav-dl.git`
 1. `npm install`
-1. `config.json`をつくる(フォーマットは下を参照)
+1. 環境変数を設定する(詳細は次節参照)
 
-config.json
+        export SESSION_SECRET="foobar"
+        export TWITTER_CONSUMER_KEY="*************************"
+        export TWITTER_CONSUMER_KEY_SECRET="**************************************************"
+
+Environment Variables
 ----
 
-    {
-        "SESSION_SECRET":               "foobar",
-        "TWITTER_CONSUMER_KEY":         "*************************",
-        "TWITTER_CONSUMER_KEY_SECRET":  "**************************************************"
-    }
-                
-* SESSION_SECRETはセッションの署名に使う文字列なので、適当に決めてOKです
-* Webアプリ化に伴ってOAuth認証を実装したので、アクセストークンは不要になりました
+動作のために、以下に示す3つの環境変数を設定する必要があります。  
+* SESSION_SECRET
+    + セッションの署名に使う文字列。適当な文字列でOK。
+* TWITTER_CONSUMER_KEY
+* TWITTER_CONSUMER_KEY_SECRET
+    + いわゆるCK/CS。(Twitter Application Management)[https://apps.twitter.com/]で取得してくる。
 
+また、必要に応じて以下の環境変数を設定することもできます。
+* PORT
+    + サーバがlistenするポート。デフォルトでは3000。  
+* TWITTER_OAUTH_CALLBACK_DOMAIN
+    + TwitterのサイトでOAuth認証した後に呼び出されるコールバックURLのドメイン。デフォルトでは`127.0.0.1`。
 
 Usage
 ----

@@ -2,7 +2,9 @@
   "dependencies": {},
   "devDependencies": {},
   "ambientDependencies": {
+    "cookie-parser": "github:DefinitelyTyped/DefinitelyTyped/cookie-parser/cookie-parser.d.ts#e2001653ffbd99c2fc80a272ca80d8c958136de4",
     "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#dd4626a4e23ce8d6d175e0fe8244a99771c8c3f2",
+    "express-session": "github:DefinitelyTyped/DefinitelyTyped/express-session/express-session.d.ts#da2bb07e037a61e6ead149ae89063b00892f6929",
     "jade": "github:DefinitelyTyped/DefinitelyTyped/jade/jade.d.ts#c69185b594b5a846b84ce1f89864b44cda727df1",
     "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#1c56e368e17bb28ca57577250624ca5bd561aa81",
     "request": "github:DefinitelyTyped/DefinitelyTyped/request/request.d.ts#e252a088123eb595d9d772eb373f41c084360278",

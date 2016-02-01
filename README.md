@@ -8,12 +8,15 @@ Install
 config.json
 ----
 
-Webアプリ化に伴ってOAuthを実装したので、アクセストークンは不要になりました
-
     {
+        "SESSION_SECRET":               "foobar",
         "TWITTER_CONSUMER_KEY":         "*************************",
-        "TWITTER_CONSUMER_SECRET":      "**************************************************"
+        "TWITTER_CONSUMER_KEY_SECRET":  "**************************************************"
     }
+                
+* SESSION_SECRETはセッションの署名に使う文字列なので、適当に決めてOKです
+* Webアプリ化に伴ってOAuth認証を実装したので、アクセストークンは不要になりました
+
 
 Usage
 ----
@@ -29,10 +32,13 @@ Note
 ----
 
 * **[公式のドキュメント](https://dev.twitter.com/rest/public)をよく読む(重要)**
+* OAuthは[Implementing Sign in with Twitter](https://dev.twitter.com/web/sign-in/implementing)がすべて
 * `GET /1.1/favorites/list`でlikeの一覧が取れる
     + 1回のリクエストで最大200件(`count`パラメータ、指定がないと5件)
+    + 削除されたツイート等の除外処理は`count`で指定した数に絞った後に行われるので、  
+      必ずしも指定した件数が帰ってくるとは限らない  
     + 201件目以降は、200件目のidを`max_id`パラメータに指定すればOK
-    + likeの件数は`GET /1.1/users/show.json`でユーザ情報を取って`favourites_count`を見る
++ likeの総件数は`GET /1.1/users/show.json`でユーザ情報を取って`favourites_count`を見る
 
 `GET /1.1/favorites/list`のレスポンス構造
 

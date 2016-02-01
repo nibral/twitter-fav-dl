@@ -3,50 +3,18 @@
 const express = require('express');
 const router = express.Router();
 const co = require('co');
+const twitter = require('../lib/twitter');
 
 // トップページ
 router.get('/', (request, response) => {
-    response.render('layout', {
-        title: 'pritty title',
-        content: 'very interesting content'
-    });
-});
+    // cookieにユーザ情報がない場合、認証画面へ飛ばす
+    if (!request.session.user) {
+        response.redirect('/oauth');
+        return;
+    }
 
-// Twitter OAuth
-const twitter = require('../lib/twitter');
-let twitterClient = null;
-let oauthRequestToken = null;
-
-// OAuthリクエスト
-router.get('/oauth', (request, response) => {
-    twitter.OAuth().then((oauthToken) => {
-        oauthRequestToken = oauthToken;
-        response.redirect(oauthToken.redirectURL);
-    }).catch((error) => {
-        response.render('layout', {
-            title: 'Error',
-            content: error
-        });
-    });
-});
-
-// Twitterから呼ばれるOAuthコールバック
-router.get('/oauth/callback', (request, response) => {
-    twitter.OAuthCallback(oauthRequestToken, request.query).then((userOAuthInfo) => {
-        twitterClient = userOAuthInfo.client;
-        response.redirect('/' + userOAuthInfo.userAccessToken.screen_name);
-    }).catch((error) => {
-        response.render('layout', {
-            title: 'Error',
-            content: error
-        });
-    });
-    oauthRequestToken = null;
-});
-
-// ユーザページ
-router.get('/:screenName', (request, response) => {
-    twitter.getUserInfo(twitterClient, request.params.screenName).then((userInfo) => {
+    const twitterClient = twitter.getInstance(request.session.user.accessToken, request.session.user.accessTokenSecret);
+    twitter.getUserInfo(twitterClient, request.session.user.screenName).then((userInfo) => {
         response.render('layout', {
             title: userInfo.screen_name,
             content: JSON.stringify(userInfo, null, '    ')
@@ -54,7 +22,7 @@ router.get('/:screenName', (request, response) => {
     }).catch((error) => {
         response.render('layout', {
             title: 'Error',
-            content: error
+            content: JSON.stringify(error)
         });
     });
 });

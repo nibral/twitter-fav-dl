@@ -8,7 +8,9 @@
   "license": "MIT",
   "dependencies": {
     "co": "^4.6.0",
+    "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "jade": "^1.11.0",
     "request-promise": "^2.0.0",
     "twitter": "^1.2.5"

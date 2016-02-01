@@ -28,8 +28,6 @@ Environment Variables
 Usage
 ----
 
-**現在のところ、OAuthで認証してユーザ情報が見られるだけです**
-
 1. `node app.js`
 1. `http://yourdomain.com:port/`にアクセス
 

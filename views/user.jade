@@ -1,0 +1,12 @@
+doctype
+html(lang="ja")
+    head
+        title= title
+        link(rel="stylesheet" href="./css/style.css" type="text/css")
+    body
+        h3 #{screenName}
+        img.img_wrap_left(src="#{userImageUrl}")
+        p
+            a(href="./like") Like image URL list(#{favCounts} items)
+        h3 raw response
+        pre= rawResponse

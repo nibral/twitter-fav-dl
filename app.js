@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const express = require('express');
 const app = express();
@@ -7,6 +7,8 @@ const app = express();
 app.set('view engine', 'jade');
 
 // ミドルウェア設定
+app.use(express.static('public'));  // 静的ファイル
+
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 app.use(session({               // セッション設定

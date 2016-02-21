@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const express = require('express');
 const router = express.Router();
@@ -7,20 +7,25 @@ const twitter = require('../lib/twitter');
 
 // トップページ
 router.get('/', (request, response) => {
-    // cookieにユーザ情報がない場合、認証画面へ飛ばす
+    // cookieにユーザ情報がない場合はログイン画面を表示
     if (!request.session.user) {
-        response.redirect('/oauth');
+        response.render('login', {
+            title: 'twitter-fav-dl',
+        })
         return;
     }
 
+    // ユーザ情報がある(=ログイン済み)の場合はユーザ情報を表示
     const twitterClient = twitter.getInstance(request.session.user.accessToken, request.session.user.accessTokenSecret);
     twitter.getUserInfo(twitterClient, request.session.user.screenName).then((userInfo) => {
-        response.render('layout', {
-            title: userInfo.screen_name,
-            content: JSON.stringify(userInfo, null, '    ')
+        response.render('user', {
+            screenName: userInfo.screen_name,
+            favCounts: userInfo.favourites_count,
+            userImageUrl: userInfo.profile_image_url_https,
+            rawResponse: JSON.stringify(userInfo, null, '    ')
         })
     }).catch((error) => {
-        response.render('layout', {
+        response.render('jsonlist', {
             title: 'Error',
             content: JSON.stringify(error)
         });
@@ -29,9 +34,9 @@ router.get('/', (request, response) => {
 
 // Likeの画像URL一覧
 router.get('/like', (request, response) => {
-    // cookieにユーザ情報がない場合、認証画面へ飛ばす
+    // cookieにユーザ情報がない場合、トップ画面へ飛ばす
     if (!request.session.user) {
-        response.redirect('/oauth');
+        response.redirect('/');
         return;
     }
 
@@ -44,12 +49,11 @@ router.get('/like', (request, response) => {
         response.set('Content-Type', 'text/plain');
         response.send(urlList);
     }).catch((error) => {
-        response.render('layout', {
+        response.render('jsonlist', {
             title: 'Error',
             content: JSON.stringify(error)
         });
     });
 });
-
 
 module.exports = router;

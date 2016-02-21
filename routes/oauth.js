@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const express = require('express');
 const router = express.Router();
@@ -13,7 +13,7 @@ router.get('/', (request, response) => {
         oauthRequestToken = oauthToken;
         response.redirect(oauthToken.redirectURL);
     }).catch((error) => {
-        response.render('layout', {
+        response.render('jsonlist', {
             title: 'Error',
             content: JSON.stringify(error)
         });
@@ -25,9 +25,9 @@ router.get('/callback', (request, response) => {
     twitter.OAuthCallback(oauthRequestToken, request.query).then((userAccessToken) => {
         // cookieにユーザ情報を保存
         request.session.user = userAccessToken;
-        response.redirect('/like');
+        response.redirect('/');
     }).catch((error) => {
-        response.render('layout', {
+        response.render('jsonlist', {
             title: 'Error',
             content: JSON.stringify(error)
         });
